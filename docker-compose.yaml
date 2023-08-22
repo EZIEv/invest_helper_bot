@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+  users_db:
+    container_name: users
+    image: postgres:bullseye
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_PASSWORD={pass here you USERS_DB_PASSWORD from .env}
+      - POSTGRES_USER=postgres
+    volumes:
+      - ./DataBase/data:/var/lib/postgresql/data
+      - ./DataBase/init.sql:/docker-entrypoint-initdb.d/init.sql
+  invest_bot:
+    container_name: invest_bot
+    depends_on:
+      - users_db
+    restart: always
+    build: .
+    network_mode: host
+    volumes:
+      - ./temp:/invest_bot/temp
