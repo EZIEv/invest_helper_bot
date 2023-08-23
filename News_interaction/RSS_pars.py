@@ -26,13 +26,10 @@ class RSS_pars():
         # Headers that provides requests to agregators' sites without blocking 
         self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'}
 
-        # Initializating base dir
-        base_dir = config.base_dir
-
         # Importing old news from backup file if something get wrong with programm or create new deque if backup file doesn't exist
         for news_agregator in self.news_agregators:
             try:
-                with open(path.join(base_dir, 'temp', f'{news_agregator[0]}_old_news.json'), 'r', encoding='utf-8') as old_news_file:
+                with open(path.join('.', 'temp', f'{news_agregator[0]}_old_news.json'), 'r', encoding='utf-8') as old_news_file:
                     self.old_news[news_agregator[0]] = json.load(old_news_file)
             # If file does not exist, so creating clear deque
             except FileNotFoundError:
