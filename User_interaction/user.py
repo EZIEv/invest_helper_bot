@@ -8,7 +8,7 @@ from DataBase.postgre_connection import Postgre_Connection
 
 # Class for interaction with user's data
 class User(Postgre_Connection):
-    # Initializating connection with database and initializating config parameters
+    # Initializating connection with the database and initializing config parameters
     def __init__(self, db_name: str, db_user: str, db_password: str, db_host: str, db_port: str):
         super().__init__(db_name, db_user, db_password, db_host, db_port)
         self.__db_name = db_name
@@ -55,7 +55,7 @@ class User(Postgre_Connection):
     '''---------------CHECKING USER'S NEWS AGREGATOR's STATUSES---------------'''
 
 
-    # Checking user's news agregator's statuses
+    # Checking user's news aggregator's statuses
     def news_status_check(self, user_id: int, news_agregator: str, table: str) -> bool:
         try:
             self.__cur.execute(f"SELECT {news_agregator} FROM {table} WHERE user_id = {user_id}")
