@@ -2,31 +2,33 @@
 
 ## Makes financial decisions easier
 
-### (|_o_o_|) <a href="https://t.me/invst_helper_bot">Link to the bot</a> (|_o_o_|)
+### (|_o_o_|) [Link to the bot](https://t.me/invst_helper_bot) (|_o_o_|)
 
 ---
 
-### ❓ Why you should use this bot?  
+### ❓ Why should you use this bot?  
 
-The main auditory is the private investors that use stocks. This bot can help them make decisions about different companies based on financial perfomance, investors can adjust getting last economic's news from different news agregators all over the world. All notifications they recieve in telegram, no subscriptions on many resources, no extra apps. All functionality only in one messenger.
+The main audience for this bot is private investors who trade stocks. This bot can assist them in making decisions about various companies based on their financial performance. Investors can receive the latest economic news from different news aggregators worldwide. All notifications are received through Telegram, eliminating the need for subscriptions to multiple resources or extra apps. All functionality is consolidated within a single messenger.
 
-It is just a part of the planned functions that have been already realized. For more functionality check "Further plans".
+These are just some of the planned functions that have already been implemented. For additional functionality, please refer to the "Future plans" section.
 
 ---
 ### ✨ Realized features
 
-+ Support command (allows a user to contact with admins via bot)
-+ Overview command (sends financial perfomance about the company by a ticker)
-+ News (user adjusts subscribes on the different economic's news agregators in the personal profile and recieves last news from them)
++ **Support Command:** This feature enables users to contact admins via the bot for assistance.
++ **Overview Command:** Users can request financial performance details about a company by providing its ticker symbol.
++ **News:** Users can adjust their subscriptions to various economic news aggregators in their personal profiles, and they will receive the latest news from them.
 
 ---
-### 🚀 Getting Started
+### 🚀 Getting started
 
-For starting this bot you need to do a small setup.<br><br>First of all get your own free api key from the _**[alphavantage](https://www.alphavantage.co/support/#api-key)**_.
-Then you need to create a bot in _**[telegram](https://t.me/BotFather)**_ and save its api key. I use two bots: the first is main and the second is for tests, but you can use only one.
-Now you have all the keys you need and we can go to configuration of the bot.
+To start using this bot, you need to perform a quick setup.
 
-Open a folder with this repository and choose a file .env
+Firstly, obtain your own free API key from _**[alphavantage](https://www.alphavantage.co/support/#api-key)**_.
+Next, create a bot on _**[telegram](https://t.me/BotFather)**_ and save its API key. I use two bots: one for primary use and another for testing, although you can use just one.
+With these keys in hand, you're ready to proceed with the bot's configuration.
+
+Navigate to the folder containing this repository and locate the **'.env'** file.
 
 ```
 ALPHAVANTAGE_API_KEY = "pass here your alphavantage api key"
@@ -35,7 +37,7 @@ TEST_BOT_API_KEY = "pass here your second telegram bot api key or leave an empty
 USERS_DB_PASSWORD = "create a password for access to database"
 ```
 
-Now open docker-compose.yaml in the same folder
+Now, open the **'docker-compose.yaml'** file located in the same folder.
 
 ```yaml
 version: '3.5'
@@ -65,13 +67,13 @@ services:
       - ./temp:/invest_bot/temp
 ```
 
-Now we are ready to build Docker image
+We're now prepared to build the Docker image.
 
 ```sh
 docker build --tag username/invest_bot:v2.02_alpha .
 ```
 
-And start the bot
+Next, initiate the bot.
 
 ```sh
 docker-compose up -d
@@ -80,26 +82,26 @@ docker-compose up -d
 ---
 ### 📋 Problems
 
-Here are some problems that will be solved in the future: 
-1. news.py and bot.py are working in one container. It would be better if they were separated and worked independently, because if one of them breaks down, the whole container is rebooted.
-2. Interaction with the database occurs through the native SQL-queries. It's better if you use ORM because it increases speed of code's writing and its readability. (I have used the SQL-queries here only like a practice)
-3. RSS_pars.py parses only whole rss channel by the link, and for increasing quantity of news agregators suitable for using, it is need to add a function that divides channel on categories.
-4. According to the third paragraph RSS_pars.py can't pars news agregators without rss channel. So we need to create a new class that parses non-rss news agregators.
+Here are some issues that will be addressed in the future:
+1. **Container Separation:**  **'news.py'** and **'bot.py'** are currently operating within a single container. It would be beneficial to separate them and allow them to function independently. This separation is crucial because if one of them fails, the entire container is forced to restart.
+2. **Using an ORM:** Interaction with the database is currently based on native SQL queries. Utilizing an Object-Relational Mapping (ORM) system would be preferable, as it enhances the speed of code development and improves readability. (In this project, I have used SQL queries solely for practice purposes.)
+3. **Categorizing RSS Channels:** The **'RSS_pars.py'** script currently only parses entire RSS channels based on provided links. To accommodate a larger number of usable news aggregators and improve user experience, it is necessary to implement a function that categorizes channels.
+4. **Parsing Non-RSS Sources:** Given the information from the third point, **'RSS_pars.py'** is unable to parse news aggregators lacking an RSS channel. Consequently, a new class needs to be developed to handle parsing for non-RSS news aggregators.
    
-This is my first project and the first real practice like a programmer, so there are more problems and it would be great if you noticed them.
+This project represents my initial venture as a programmer and my first practical experience. While I recognize there may be additional issues, I would greatly appreciate any insights you could provide.
 
 ---
-### 🖥️ Further plans
+### 🖥️ Future plans
 
-+ Users can create personal portfolio and monitor stocks' quotes
-+ Users can set quotes targets and recieve notifications on their achievements
-+ Users can recieve last press releases and reports of the companies
-+ Users can monitor dividends calendar
-+ Users can adjust news by the companies in personal profile
-+ Create a site with the admin-panel where admins can control the whole bot and the whole databases
-+ Create a training site about financial investments
++ Users will be able to create a personal portfolio and monitor stock quotes.
++ Users can set quote targets and receive notifications upon achieving them.
++ Users will have access to the latest press releases and reports from companies.
++ Users can track the dividends calendar.
++ Users can customize news based on companies in their personal profiles.
++ Develop a website with an admin panel, giving administrators control over the bot and databases.
++ Establish an educational website providing training on financial investments.
 
-You can offer own features and i will certainly consider them.
+Feel free to offer additional suggestions or features, and I will certainly consider them. If you have any more text to review or need further assistance, don't hesitate to ask!
 
 ---
 ### 👨‍💻 Authors
