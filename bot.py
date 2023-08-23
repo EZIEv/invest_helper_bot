@@ -1,40 +1,31 @@
 '''----------------DESCRIPTION---------------
 
-    This module starts the bot and here are 
-    implemented all frontend functions.
+    This module starts the bot and implements
+    all front-end functions.
 
-    Realized commands:
-    *commands that don't display in menu and
-    available only for admins
+    Implemented commands:
 
-        - start (adds user to database and
-                 sends welcome message)
+    start: Adds the user to the database and
+    sends a welcome message.
+    
+    help: Sends a message explaining the bot's 
+    functionality.
 
-        - help (sends a message about 
-                bot's functionality)
-
-        - support (allows a user to 
-                   contact with admin and 
-                   allows an admin to 
-                   answer on users' 
-                   messages)
-
-        - *answer (allows an admin to answer
-                   on users' messages)
-
-        - stop (removes a user from 
-                database and sends a 
-                farewell message)
-
-        - overview (gets from user a ticker
-                    of a company and sends 
-                    all financial perfomance
-                    of the company)
-
-        - profile (allows a user to adjust
-                   news' subscriptions and
-                   notifications)
-
+    support: Allows a user to contact an admin 
+    and enables admins to respond to user messages.
+    
+    answer (Admin only): Allows an admin to respond 
+    to user messages.
+    
+    stop: Removes a user from the database and sends
+    a farewell message.
+    
+    overview: Prompts the user to input a company 
+    ticker and sends the company's financial performance.
+    
+    profile: Enables users to manage news subscriptions
+    and notifications.
+    
     -----------------------------------------'''
 
 
@@ -73,7 +64,7 @@ news_agregators_grouped = config.news_agregators_grouped    # Initializating dic
 news_agregators = [news_agregator[0] for news_agregator in config.news_agregators] # Initializating list of news agregators
 
 
-# Initializating bot's commands in menu button
+# Initializating bot's commands in the menu button
 async def setup_bot_commands(*args):
     bot_commands = [
         types.BotCommand(command="/profile", description="Управление профилем"),
@@ -89,7 +80,7 @@ async def setup_bot_commands(*args):
 '''---------------START COMMAND AND WELCOME MESSAGE----------'''
 
 
-# Start command with user's registration in 'users' database
+# Adds the user to the 'users' database if they don't already exist.
 @dp.message_handler(commands=['start'])
 async def send_welcome(message: types.Message):
     await message.answer("""Я рад, что вы решили воспользоваться моей помощью!\n
@@ -97,7 +88,7 @@ async def send_welcome(message: types.Message):
 Для более полного ознакомления воспользуйтесь командой /help\n
 Чтобы связаться с моими создателями используйте команду /support""")
     
-    user.add(message.from_user.id)  # Adding user to 'users' database if doesn't exist
+    user.add(message.from_user.id)  
 
 
 '''---------------HELP COMMAND AND INSTRUCTION MESSAGE---------------'''
@@ -120,16 +111,16 @@ async def help(message: types.Message):
 @dp.message_handler(commands=['support'])
 async def getting_support_message(message: types.Message):
     await message.answer("Введите сообщение для моих создателей:")
-    await UserState.support.set()   # Changing user's state to 'support' for getting a message to admin
+    await UserState.support.set()   # Changing the user's state to 'support' for getting a message to admin
 
 
-# Getting user's message, sending it to admin and restoring user's state
+# Getting a user's message, sending it to admin, and restoring the user's state
 @dp.message_handler(state=UserState.support)
 async def support(message: types.Message, state: FSMContext):
     await bot.send_message(chat_id=754668096, text=f"ID чата: {message.chat.id}\n\nТекст сообщения: {message.text}")
     await message.answer("Ваше сообщение было доставлено моим создателям, вскоре они вам ответят")
 
-    await state.finish()    # Restoring user's state to base
+    await state.finish()    # Restoring the user's state to base
 
 
 # Admin's part
@@ -150,7 +141,7 @@ async def getting_message_answer_support(message: types.Message, state: FSMConte
     await UserState.answer_message.set()    # Changing admin's state to 'answer message' for getting answer message
 
 
-# Getting answer message, formating answer, sending it to user and restoring admin's state
+# Getting answer message, formatting answer, sending it to the user and restoring the admin's state
 @dp.message_handler(filters.IDFilter(chat_id=754668096), state=UserState.answer_message)
 async def answer(message: types.Message, state: FSMContext):
     await state.update_data(answer=message.text)    # Writing to dict the answer message
@@ -190,7 +181,7 @@ async def get_ticker_for_overview(message: types.Message):
     await UserState.company_overview.set()  # Changing user's state to 'company_overview' for getting company's ticker
 
 
-# Getting ticker of a company, sending overview and restoring user's state 
+# Getting ticker of a company, sending overview, and restoring user's state 
 @dp.message_handler(state=UserState.company_overview)
 async def overview(message: types.Message, state: FSMContext):
     response = stock.company_overview(message.text.upper())     # Getting overview of the company
@@ -205,7 +196,7 @@ async def overview(message: types.Message, state: FSMContext):
 '''---------------MAIN PAGE---------------'''
 
 
-# Profile command showes inline keyboard for adjusting user's profile
+# Profile command shows an inline keyboard for adjusting the user's profile
 @dp.message_handler(commands=['profile'])
 @dp.callback_query_handler(lambda callback: callback.data == 'profile_main_page')
 async def profile(message: types.Message):
@@ -219,7 +210,7 @@ async def profile(message: types.Message):
 
     if not hasattr(message, 'message'):     # If function called within command
         await message.answer("Выберите действие: ", reply_markup=reply_markup)
-    else:   # If function called within callback
+    else:   # If the function is called within callback
         await bot.edit_message_text("Выберите действие: ", chat_id=message.message.chat.id, message_id=message.message.message_id, reply_markup=reply_markup)
 
 
@@ -245,7 +236,7 @@ async def news_countries_page(callback: types.CallbackQuery):
     await bot.edit_message_text("Выберите страну: ", chat_id=callback.message.chat.id, message_id=callback.message.message_id, reply_markup=reply_markup)
 
 
-# Showes inline keyboard with news agregators for chosen country
+# Showes inline keyboard with news aggregators for the chosen country
 @dp.callback_query_handler(lambda callback: callback.data in news_agregators_grouped)
 async def news_agregators_page(callback: types.CallbackQuery):
 
@@ -265,7 +256,7 @@ async def news_agregators_page(callback: types.CallbackQuery):
                                 chat_id=callback.message.chat.id, message_id=callback.message.message_id, reply_markup=reply_markup)
 
 
-# Showes inline keyboard for adjusting settings of chosen news agregator
+# Showes inline keyboard for adjusting settings of chosen news aggregator
 @dp.callback_query_handler(lambda callback: callback.data.split('|')[0] in news_agregators)
 async def news_agregator_page(callback: types.CallbackQuery):
 
