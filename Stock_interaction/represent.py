@@ -1,16 +1,16 @@
 # Importing inbuilt modules
 import logging
 
-# Creating class for representing different data
+# Creating a class for representing different data
 class Represent():
-    # Representing data from overview
+    # Representing data from the overview
     def company_overview_represent(self, overview_data: dict) -> str:
-        # If there is no data, so there is no data
+        # If there is no data, there is no data
         for param in overview_data:
             if overview_data[param] == 'None':
                 overview_data[param] = "Нет данных"
 
-        # Representing big numeric parameteres
+        # Representing big numeric parameters
         for param in ('MarketCapitalization', 'RevenueTTM', 'GrossProfitTTM', 'EBITDA'):
             try:
                 overview_data[param] = f"{round(int(overview_data[param]) / 10**9, 3)} млрд. {overview_data['Currency']}"
