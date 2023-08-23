@@ -4,7 +4,7 @@ import logging
 # Importing external modules
 import psycopg2
 
-# Abstract class for creating connection with database in Postgre
+# The abstract class for creating a connection with database in Postgre
 class Postgre_Connection():
     def __init__(self, db_name, db_user, db_password, db_host, db_port):
         self.connection = None
