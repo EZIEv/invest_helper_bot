@@ -11,11 +11,6 @@ load_dotenv(find_dotenv())
 
 
 
-# Initializating base dir
-base_dir = os.path.basename(os.path.abspath(__file__))
-
-
-
 
 # API keys
 test_bot_api_key = os.environ.get("TEST_BOT_API_KEY")
